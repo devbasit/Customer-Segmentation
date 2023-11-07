@@ -227,7 +227,7 @@ if nav == 'Data Exploration':
 
     # typeOfCluster  = st.radio("Tye of Cluster",["Normal Kmeans", "Hierarchical Cluster"])
 
-    displayGraph(plotType, df)
+    displayGraph(plotType, df, combos, graph)
     
 if nav == "Prediction":
     st.header("PREDICT CUSTOMER CLASSES")
