@@ -66,32 +66,58 @@ def predict(data, modelType = "PCA KMEANS"):
     if modelType=="PCA HEIRARCHICAL":
         pred = cut_tree(mergings, n_clusters=4).reshape(-1, )
     return pred
+html_temp = """
+<h3>
+Project Title: The Development of a Customer Segmentation System Based on Purchasing Behavior
+</h3>
 
+<h4>
+Project Overview:
+</h4>
 
-col1, col2, col3 = st.columns([1,4,1])
-col2.title("CUSTOMER SEGMENTATION")
-fig = plt.figure(figsize=(7, 3))  # Adjust the figure size here
-sns.scatterplot(x='AmountSpent', y='Frequency', hue='Cluster_Labels', data=pcaPredsDf, palette='Set1')
-# plt.title('Amount Spent vs. Frequency')
+<p>
+Welcome to our innovative project aimed at revolutionizing customer segmentation through the power of data science. In this endeavor, we focus on understanding and classifying customers by their purchasing behavior, using advanced techniques such as K-Means and Hierarchical Clustering.
 
-plt.tight_layout()
-col2.pyplot(fig)
+<strong>Why Customer Segmentation Matters:</strong>
 
-nav = st.sidebar.radio("Navigation",["Home", "Data Exploration","Prediction"])
+Customer segmentation is the cornerstone of personalized marketing and customer satisfaction. By dissecting the diverse purchasing behaviors of your clientele, businesses can tailor their marketing strategies, create targeted promotions, and enhance customer experiences.
+</p>
+<h4><bold>
+Our Approach:
+</bold>
+</h4>
 
-if nav == "Home":
+<p>
+<bold>Data</bold> Collection: We gather extensive data on customer transactions, preferences, and behaviors to create a rich dataset.
 
-    st.write(" HELLO") 
+<bold>Data Preprocessing</bold>: We clean and prepare the data for analysis, ensuring accuracy and reliability.
 
+<bold>K-Means Clustering</bold>: Employing the K-Means algorithm, we divide customers into distinct segments based on their purchasing habits, allowing businesses to understand and engage with them more effectively.
 
-if nav == 'Data Exploration':
+<bold>Hierarchical Clustering</bold>: This technique refines our segmentation further, providing a hierarchical view of customer groups for deeper insights.
 
-    plotType       = st.radio("Plot Type",["2D","3D"])
-    dataToExplore  = st.radio("Data to Explore",["PCA DATA","Original Data"])
-    datas          = {'PCA DATA': pcaPredsDf, 'Original Data':selDataDf}
-    df             = datas[dataToExplore]
-    # typeOfCluster  = st.radio("Tye of Cluster",["Normal Kmeans", "Hierarchical Cluster"])
-    if plotType == '2D':
+Key Benefits:
+<ul>
+<li>Improved Targeting: Precisely target customers with tailored marketing strategies and promotions.</li>
+<li>Enhanced Customer Experiences: Understand and address unique needs and preferences.</li>
+<li>Optimized Product Development: Develop products that cater to specific customer segments.</li>
+<li>Increased ROI: Maximize the effectiveness of your marketing budget by reaching the right audience.</li>
+</p>
+<h4>
+Why Choose Our Solution:
+</h4>
+Our team of expert data scientists is dedicated to creating a customer segmentation system that aligns with your business goals. We aim to empower your organization with data-driven insights that drive success.
+</p>
+Get Started:
+
+<i>
+Join us on this journey of transforming customer segmentation by harnessing the power of data. Unlock the potential of personalized marketing and exceptional customer experiences with our cutting-edge solutions.
+</i>
+</p>
+"""
+
+def displayGraph(plotType, dataToExplore, datas, df, dat = None):
+       if plotType == '2D':
 
         combos = st.radio("COMBO", ["AmountSpent/Frequency","AmountSpent/Recency","Frequency/Recency"])
         columns = combos.split('/')
@@ -174,6 +200,32 @@ if nav == 'Data Exploration':
         )
         
         col2.plotly_chart(fig2)
+
+col1, col2, col3 = st.columns([1,4,1])
+col2.title("CUSTOMER SEGMENTATION")
+fig = plt.figure(figsize=(7, 3))  # Adjust the figure size here
+sns.scatterplot(x='AmountSpent', y='Frequency', hue='Cluster_Labels', data=pcaPredsDf, palette='Set1')
+# plt.title('Amount Spent vs. Frequency')
+
+plt.tight_layout()
+col2.pyplot(fig)
+
+nav = st.sidebar.radio("Navigation",["Home", "Data Exploration","Prediction"])
+
+if nav == "Home":
+
+    st.markdown(html_temp, unsafe_allow_html=True)
+
+
+if nav == 'Data Exploration':
+
+    plotType       = st.radio("Plot Type",["2D","3D"])
+    dataToExplore  = st.radio("Data to Explore",["PCA DATA","Original Data"])
+    datas          = {'PCA DATA': pcaPredsDf, 'Original Data':selDataDf}
+    df             = datas[dataToExplore]
+    # typeOfCluster  = st.radio("Tye of Cluster",["Normal Kmeans", "Hierarchical Cluster"])
+
+    displayGraph()
     
 if nav == "Prediction":
     st.header("PREDICT CUSTOMER CLASSES")
