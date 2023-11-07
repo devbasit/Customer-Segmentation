@@ -234,7 +234,6 @@ if nav == "Prediction":
     predType = st.radio("Select Prediction Type",["Upload Data","Predict Single"])
     model    = "PCA KMEANS"
     models   = {"PCA KMEANS": kmeans, 'PCA HEIRARCHICAL':mergings}
-    plotType       = st.radio("Plot Type",["2D","3D"])
     
 
 
@@ -261,6 +260,8 @@ if nav == "Prediction":
                     predicted = True
 
                 if predicted:
+                    plotType       = st.radio("Plot Type",["2D","3D"])
+                    
                     combos = st.radio("COMBO", ["AmountSpent/Frequency","AmountSpent/Recency","Frequency/Recency"])
                     graph = st.selectbox("What kind of Graph ? ",["Non-Interactive","Interactive"])
 
