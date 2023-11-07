@@ -240,6 +240,8 @@ if nav == "Prediction":
 
     if predType == 'Upload Data':
         dat  = st.file_uploader("Upload your csv data", type=['csv','txt'])
+        predicted = False
+        
 
         if dat is not None:
             dat_df = pd.read_csv(dat)
@@ -249,7 +251,6 @@ if nav == "Prediction":
                 cdf = scaler.transform(cdf.values)
                 cdf = pca.transform(pd.DataFrame(cdf, columns=['AmountSpent','Frequency','Recency','Country']))
 
-                predicted = False
 
                 if st.button("Predict"):
                     preds = predict(cdf, model)
@@ -259,17 +260,17 @@ if nav == "Prediction":
 
                     predicted = True
 
-                if predicted:
-                    plotType       = st.radio("Plot Type",["2D","3D"])
-                    
-                    combos = st.radio("COMBO", ["AmountSpent/Frequency","AmountSpent/Recency","Frequency/Recency"])
-                    graph = st.selectbox("What kind of Graph ? ",["Non-Interactive","Interactive"])
-
-                    displayGraph(plotType, df, combos, graph)
-
             else:
                 f"EMSURE YOUR DATA IS IN THE RIGHT ORDER. MAKE SURE IT HAS THE COLUMNS \n ['AmountSpent','Frequency','Recency','Country']. AVAILABLE COLUMNS ARE {dat.columns}"
+
         
+        if predicted:
+              plotType       = st.radio("Plot Type",["2D","3D"])
+                    
+              combos = st.radio("COMBO", ["AmountSpent/Frequency","AmountSpent/Recency","Frequency/Recency"])
+              graph = st.selectbox("What kind of Graph ? ",["Non-Interactive","Interactive"])
+
+              displayGraph(plotType, df, combos, graph)
 
         
 
