@@ -82,19 +82,19 @@ Welcome to our innovative project aimed at revolutionizing customer segmentation
 
 Customer segmentation is the cornerstone of personalized marketing and customer satisfaction. By dissecting the diverse purchasing behaviors of your clientele, businesses can tailor their marketing strategies, create targeted promotions, and enhance customer experiences.
 </p>
-<h4><bold>
+<h4><b>
 Our Approach:
-</bold>
+</b>
 </h4>
 
 <p>
-<bold>Data</bold> Collection: We gather extensive data on customer transactions, preferences, and behaviors to create a rich dataset.
+<b>Data</b> Collection: We gather extensive data on customer transactions, preferences, and behaviors to create a rich dataset.
 
-<bold>Data Preprocessing</bold>: We clean and prepare the data for analysis, ensuring accuracy and reliability.
+<b>Data Preprocessing</b>: We clean and prepare the data for analysis, ensuring accuracy and reliability.
 
-<bold>K-Means Clustering</bold>: Employing the K-Means algorithm, we divide customers into distinct segments based on their purchasing habits, allowing businesses to understand and engage with them more effectively.
+<b>K-Means Clustering</b>: Employing the K-Means algorithm, we divide customers into distinct segments based on their purchasing habits, allowing businesses to understand and engage with them more effectively.
 
-<bold>Hierarchical Clustering</bold>: This technique refines our segmentation further, providing a hierarchical view of customer groups for deeper insights.
+<b>Hierarchical Clustering</b>: This technique refines our segmentation further, providing a hierarchical view of customer groups for deeper insights.
 
 Key Benefits:
 <ul>
