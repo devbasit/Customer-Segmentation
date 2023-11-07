@@ -116,12 +116,10 @@ Join us on this journey of transforming customer segmentation by harnessing the 
 </p>
 """
 
-def displayGraph(plotType, dataToExplore, datas, df, dat = None):
+def displayGraph(plotType, df, combos, graph):
        if plotType == '2D':
 
-        combos = st.radio("COMBO", ["AmountSpent/Frequency","AmountSpent/Recency","Frequency/Recency"])
         columns = combos.split('/')
-        graph = st.selectbox("What kind of Graph ? ",["Non-Interactive","Interactive"])
 
         if graph == "Non-Interactive":
 
@@ -167,39 +165,39 @@ def displayGraph(plotType, dataToExplore, datas, df, dat = None):
                 )
             col2.plotly_chart(fig2)
 
-    if plotType == '3D':
-        col1, col2, col3 = st.columns([1,4,1])
-        fig = px.scatter_3d(df, x='AmountSpent', y='Frequency', z='Recency', color='Cluster_Labels',
-                     labels={'AmountSpent': 'AmountSpent', 'Frequency': 'Frequency', 'Recency': 'Recency', 'Cluster_3D': 'Cluster'})
+        if plotType == '3D':
+            col1, col2, col3 = st.columns([1,4,1])
+            fig = px.scatter_3d(df, x='AmountSpent', y='Frequency', z='Recency', color='Cluster_Labels',
+                        labels={'AmountSpent': 'AmountSpent', 'Frequency': 'Frequency', 'Recency': 'Recency', 'Cluster_3D': 'Cluster'})
 
-        fig.update_layout(
-            scene=dict(
-                xaxis_title='Amount',
-                yaxis_title='Frequency',
-                zaxis_title='Recency',
-            ),
-            title='Clustering by Amount, Frequency, and Recency For Normal KMeans',
-            width=1000,
-            height=800
-        )
-        
-        col2.plotly_chart(fig)
+            fig.update_layout(
+                scene=dict(
+                    xaxis_title='Amount',
+                    yaxis_title='Frequency',
+                    zaxis_title='Recency',
+                ),
+                title='Clustering by Amount, Frequency, and Recency For Normal KMeans',
+                width=1000,
+                height=800
+            )
+            
+            col2.plotly_chart(fig)
 
-        fig2 = px.scatter_3d(df, x='AmountSpent', y='Frequency', z='Recency', color='Cluster_Labels_Heir',
-                     labels={'AmountSpent': 'AmountSpent', 'Frequency': 'Frequency', 'Recency': 'Recency', 'Cluster_3D': 'Cluster'})
+            fig2 = px.scatter_3d(df, x='AmountSpent', y='Frequency', z='Recency', color='Cluster_Labels_Heir',
+                        labels={'AmountSpent': 'AmountSpent', 'Frequency': 'Frequency', 'Recency': 'Recency', 'Cluster_3D': 'Cluster'})
 
-        fig2.update_layout(
-            scene=dict(
-                xaxis_title='Amount',
-                yaxis_title='Frequency',
-                zaxis_title='Recency',
-            ),
-            title='Clustering by Amount, Frequency, and Recency For Heirarchical Cluster',
-            width=1000,
-            height=800
-        )
-        
-        col2.plotly_chart(fig2)
+            fig2.update_layout(
+                scene=dict(
+                    xaxis_title='Amount',
+                    yaxis_title='Frequency',
+                    zaxis_title='Recency',
+                ),
+                title='Clustering by Amount, Frequency, and Recency For Heirarchical Cluster',
+                width=1000,
+                height=800
+            )
+            
+            col2.plotly_chart(fig2)
 
 col1, col2, col3 = st.columns([1,4,1])
 col2.title("CUSTOMER SEGMENTATION")
@@ -223,15 +221,22 @@ if nav == 'Data Exploration':
     dataToExplore  = st.radio("Data to Explore",["PCA DATA","Original Data"])
     datas          = {'PCA DATA': pcaPredsDf, 'Original Data':selDataDf}
     df             = datas[dataToExplore]
+
+    combos = st.radio("COMBO", ["AmountSpent/Frequency","AmountSpent/Recency","Frequency/Recency"])
+    graph = st.selectbox("What kind of Graph ? ",["Non-Interactive","Interactive"])
+
     # typeOfCluster  = st.radio("Tye of Cluster",["Normal Kmeans", "Hierarchical Cluster"])
 
-    displayGraph(plotType, dataToExplore, datas, df)
+    displayGraph(plotType, df)
     
 if nav == "Prediction":
     st.header("PREDICT CUSTOMER CLASSES")
     predType = st.radio("Select Prediction Type",["Upload Data","Predict Single"])
-    model    = st.radio("Select Model To Use",["PCA KMEANS", "PCA KMEANS"])
+    model    = "PCA KMEANS"
     models   = {"PCA KMEANS": kmeans, 'PCA HEIRARCHICAL':mergings}
+    plotType       = st.radio("Plot Type",["2D","3D"])
+    
+
 
 
     if predType == 'Upload Data':
@@ -245,25 +250,21 @@ if nav == "Prediction":
                 cdf = scaler.transform(cdf.values)
                 cdf = pca.transform(pd.DataFrame(cdf, columns=['AmountSpent','Frequency','Recency','Country']))
 
+                predicted = False
+
                 if st.button("Predict"):
                     preds = predict(cdf, model)
 
                     cdfredsdf = pd.DataFrame(np.c_[cdf, preds], columns=['AmountSpent','Frequency','Recency','Cluster_Labels'])
                     
+
+                    predicted = True
+
+                if predicted:
                     combos = st.radio("COMBO", ["AmountSpent/Frequency","AmountSpent/Recency","Frequency/Recency"])
-                    columns = combos.split('/')
+                    graph = st.selectbox("What kind of Graph ? ",["Non-Interactive","Interactive"])
 
-                    col1, col2, col3 = st.columns([1,4,1])
-
-                    fig = plt.figure(figsize=(10, 4))  # Adjust the figure size here
-
-                    # plt.subplot(211)
-                    sns.scatterplot(x=columns[0], y=columns[1], hue='Cluster_Labels', data=cdfredsdf, palette='Set1')
-                    plt.title(f'{columns[0]} vs. {columns[1]}')
-
-                    col2.pyplot(fig)
-
-                    st.write(f'The classes for the customers are: \n{preds}')
+                    displayGraph(plotType, df, combos, graph)
 
             else:
                 f"EMSURE YOUR DATA IS IN THE RIGHT ORDER. MAKE SURE IT HAS THE COLUMNS \n ['AmountSpent','Frequency','Recency','Country']. AVAILABLE COLUMNS ARE {dat.columns}"
