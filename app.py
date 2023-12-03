@@ -94,7 +94,6 @@ Our Approach:
 
 <b>K-Means Clustering</b>: Employing the K-Means algorithm, we divide customers into distinct segments based on their purchasing habits, allowing businesses to understand and engage with them more effectively.
 
-<b>Hierarchical Clustering</b>: This technique refines our segmentation further, providing a hierarchical view of customer groups for deeper insights.
 
 Key Benefits:
 <ul>
